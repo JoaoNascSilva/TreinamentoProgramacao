@@ -1,9 +1,8 @@
 using System;
-using TreinamentoProgramacao.Model.Interfaces;
 
 namespace TreinamentoProgramacao.Model.Entities
 {
-    public class SavingsAccount : Entity, IAccount
+    public class SavingAccount : Account
     {
         private decimal _balance;
 
@@ -13,16 +12,16 @@ namespace TreinamentoProgramacao.Model.Entities
         public DateTime DueDate { get; private set; }
         public string NumberAccount { get; private set; }
 
-        public SavingsAccount(Bank bank, Customer customer)
+        public SavingAccount(Bank bank, Customer customer)
         {
             this.Bank = bank;
-            this.Customer = Customer;
+            this.Customer = customer;
             this.CreateDate = DateTime.Now;
             this.DueDate = DateTime.Now.AddYears(10);
             this.NumberAccount = new Random().Next(99999999).ToString("00.0000-00");
         }
 
-        public bool Withdraw(decimal value)
+        public override  bool Withdraw(decimal value)
         {
             if (value <= 0)
             {
@@ -39,7 +38,7 @@ namespace TreinamentoProgramacao.Model.Entities
             return true;
         }
 
-        public bool Deposity(decimal value)
+        public override bool Deposity(decimal value)
         {
             if (value <= 0)
             {
@@ -51,9 +50,18 @@ namespace TreinamentoProgramacao.Model.Entities
             return true;            
         }
 
-        public decimal Balance()
+        public override decimal Balance()
         {
             return this._balance;
+        }
+
+        public override void Extract()
+        {
+            Console.WriteLine($"********************************");
+            Console.WriteLine($"Nome.......: {this.Customer.Name}");
+            Console.WriteLine($"Tipo Conta.: Poupança ");
+            Console.WriteLine($"Saldo......: {this.Balance()}");
+            Console.WriteLine($"********************************");
         }
     }
 }

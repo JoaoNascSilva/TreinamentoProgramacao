@@ -1,9 +1,8 @@
 using System;
-using TreinamentoProgramacao.Model.Interfaces;
 
 namespace TreinamentoProgramacao.Model.Entities
 {
-    public class CurrentAccount : Entity, IAccount
+    public class CurrentAccount : Account
     {
         private decimal _balance;
         private readonly decimal _rate = 0.02M;
@@ -25,14 +24,14 @@ namespace TreinamentoProgramacao.Model.Entities
             this.Limit = 100.00M;
         }
 
-        public bool Withdraw(decimal value)
+        public override bool Withdraw(decimal value)
         {
             if (value <= 0)
             {
                 Console.WriteLine("Valor informado é inválido.");
                 return false;
             }
-            if ( (this._balance - value) < this.Limit )
+            if ((this._balance - value) < this.Limit)
             {
                 Console.WriteLine($"Você não tem limite disponível para realizar este saque, seu saldo atual é de R$ {this.Balance()}.");
             }
@@ -43,7 +42,7 @@ namespace TreinamentoProgramacao.Model.Entities
             return true;
         }
 
-        public bool Deposity(decimal value)
+        public override bool Deposity(decimal value)
         {
             if (value <= 0)
             {
@@ -55,9 +54,19 @@ namespace TreinamentoProgramacao.Model.Entities
             return true;
         }
 
-        public decimal Balance()
+        public override decimal Balance()
         {
             return _balance;
+        }
+
+        public override void Extract()
+        {
+            Console.WriteLine($"********************************");
+            Console.WriteLine($"Nome.......: {this.Customer.Name}");
+            Console.WriteLine($"Banco......: {this.Bank.Name}");
+            Console.WriteLine($"Tipo Conta.: Corrente ");
+            Console.WriteLine($"Saldo......: {this.Balance()}");
+            Console.WriteLine($"********************************");
         }
     }
 }

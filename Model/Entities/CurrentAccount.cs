@@ -1,11 +1,13 @@
 using System;
+using TreinamentoProgramacao.Model.Enums;
 
 namespace TreinamentoProgramacao.Model.Entities
 {
     public class CurrentAccount : Account
     {
-        private decimal _balance;
+        private decimal _balance=0;
         private readonly decimal _rate = 0.02M;
+        public override ETypeAccount TypeAccount => ETypeAccount.CURRENTACCOUNT;        
 
         public Bank Bank { get; private set; }
         public Customer Customer { get; private set; }
@@ -38,9 +40,10 @@ namespace TreinamentoProgramacao.Model.Entities
 
             this._balance -= value;
             this._balance -= (value * _rate);
-
+            Console.WriteLine("Saque realizado com sucesso.");
+            Console.WriteLine($"Valor de taxa sobre operação realizada: {(value * _rate)}");
             return true;
-        }
+        }        
 
         public override bool Deposity(decimal value)
         {
@@ -51,6 +54,7 @@ namespace TreinamentoProgramacao.Model.Entities
             }
 
             this._balance += value;
+            Console.WriteLine($"Depósito no valor de R$ {value} realizado com sucesso.");
             return true;
         }
 
@@ -65,7 +69,7 @@ namespace TreinamentoProgramacao.Model.Entities
             Console.WriteLine($"Nome.......: {this.Customer.Name}");
             Console.WriteLine($"Banco......: {this.Bank.Name}");
             Console.WriteLine($"Tipo Conta.: Corrente ");
-            Console.WriteLine($"Saldo......: {this.Balance()}");
+            Console.WriteLine($"Saldo......: {this.Balance()}");            
             Console.WriteLine($"********************************");
         }
     }

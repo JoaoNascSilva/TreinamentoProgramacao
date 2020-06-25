@@ -107,7 +107,7 @@ namespace TreinamentoProgramacao
             bool cancelLoop = false;
             do
             {
-                Console.Clear();
+                //Console.Clear();
                 Console.WriteLine("**********************");
                 Console.WriteLine("** Menu **************");
                 Console.WriteLine("** 1. Adicionar Banco");
@@ -115,8 +115,7 @@ namespace TreinamentoProgramacao
 
                 if (listCustomer != null && listBank != null)
                 {
-                    Console.WriteLine("** 3. Criar Conta Cliente");
-                    //AddCustomerAccount(listCustomerAccount);
+                    Console.WriteLine("** 3. Criar Conta de Cliente");
                 }
 
                 if (listCustomerAccount != null)
@@ -133,11 +132,39 @@ namespace TreinamentoProgramacao
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        cancelLoop = false;
+                        AddBank(listBank);
                         break;
                     case "2":
                         AddCustomer(listCustomer);
                         break;
+                    case "3":
+                        if (listCustomer != null && listBank != null)
+                            AddCustomerAccount(listCustomerAccount, listCustomer, listBank);
+
+                        break;
+                    case "4":
+
+                        if (listCustomerAccount == null)
+                        {
+                            Console.WriteLine("Não há clientes cadastrados.");
+                            break;
+                        }
+
+                        Console.WriteLine("Informe o Cliente pelo código identificador.");
+                        var customerId = Console.ReadLine();
+                        var customerAccount = listCustomerAccount.FirstOrDefault(s => s.Customer.Id == customerId);
+
+                        Console.WriteLine("Informe o valor a despositar.");
+                        var value = Console.ReadLine();
+                        while (!decimal.TryParse(value, out decimal outValue))
+                        {
+                            Console.WriteLine("Valor informado é inválido... Informe novamente.");
+                        }
+                        customerAccount.Account.Deposity(Math.Round(decimal.Parse(value), 2, MidpointRounding.AwayFromZero));
+                        break;
+
+                    case "6":
+
                     case "7":
                         GetListCustomer(listCustomer);
                         Console.ReadKey();

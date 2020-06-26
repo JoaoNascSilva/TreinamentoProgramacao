@@ -33,10 +33,12 @@ namespace TreinamentoProgramacao.Model.Entities
             if ( (this._balance - value) < 0 )
             {
                 Console.WriteLine($"Saldo insuficiente, seu saldo atual é de R$ {this.Balance()}.");
+                Console.ReadKey();
             }
 
             this._balance -= value;
             Console.WriteLine("Saque realizado com sucesso.");
+            Console.ReadKey();
             return true;
         }
 
@@ -50,6 +52,7 @@ namespace TreinamentoProgramacao.Model.Entities
 
             this._balance += value;
             Console.WriteLine($"Depósito no valor de R$ {value} realizado com sucesso.");
+            Console.ReadKey();
             return true;            
         }
 
@@ -66,6 +69,7 @@ namespace TreinamentoProgramacao.Model.Entities
             Console.WriteLine($"Tipo Conta.: Poupança ");
             Console.WriteLine($"Saldo......: {this.Balance()}");
             Console.WriteLine($"********************************");
+            Console.ReadKey();
         }
     }
 }

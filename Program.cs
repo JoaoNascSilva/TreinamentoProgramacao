@@ -72,7 +72,17 @@ namespace TreinamentoProgramacao
                 return bank;
             };
 
-            Console.WriteLine("Deseja criar conta para qual cliente ?\nInforme o identificador do cliente.");
+            Func<string> GetListBank = () =>
+            {
+                Console.WriteLine("Bancos Disponíveis");
+                foreach (var item in listBank)
+                {
+                    Console.WriteLine($"Identificador: { item.Id } Banco: { item.Name } Agência: {item.Agency}");
+                }
+                return "";
+            };
+
+            Console.WriteLine("Informe o identificador do cliente.");
             var idCustomer = Console.ReadLine();
             var customer = selectCustomer(idCustomer, listCustomer);
             if (customer == null)
@@ -80,7 +90,9 @@ namespace TreinamentoProgramacao
                 Console.WriteLine("Não Foi encontrado nenhum cliente com o identificador informado.");
                 return;
             }
-            Console.WriteLine("Deseja criar conta para qual cliente ?\nInforme o identificador do cliente.");
+
+            GetListBank();
+            Console.WriteLine("Informe o identificador do Banco.");
             var idBank = Console.ReadLine();
             var bank = selectBank(idBank, listBank);
             if (bank == null)
@@ -102,12 +114,34 @@ namespace TreinamentoProgramacao
             }
         }
 
+        private static CustomerAccount GetCustomerAccount(IList<CustomerAccount> listCustomerAccount)
+        {
+            if (listCustomerAccount == null)
+            {
+                Console.WriteLine("Não há cliente com conta cadastradas.");
+                return null;
+            }
+
+            Console.WriteLine("Informe o Cliente pelo código identificador.");
+            var customerId = Console.ReadLine();
+            var customerAccount = listCustomerAccount.FirstOrDefault(s => s.Customer.Id == customerId);
+
+            if (customerAccount == null)
+            {
+                Console.WriteLine("Conta de Cliente não localizada.");
+                Console.ReadKey();
+                return null;
+            }
+
+            return customerAccount;
+        }
+
         public static void ExecuteMenu(IList<Bank> listBank, IList<Customer> listCustomer, IList<CustomerAccount> listCustomerAccount)
         {
             bool cancelLoop = false;
             do
             {
-                //Console.Clear();
+                Console.Clear();
                 Console.WriteLine("**********************");
                 Console.WriteLine("** Menu **************");
                 Console.WriteLine("** 1. Adicionar Banco");
@@ -143,27 +177,48 @@ namespace TreinamentoProgramacao
 
                         break;
                     case "4":
-
-                        if (listCustomerAccount == null)
-                        {
-                            Console.WriteLine("Não há clientes cadastrados.");
-                            break;
-                        }
-
-                        Console.WriteLine("Informe o Cliente pelo código identificador.");
-                        var customerId = Console.ReadLine();
-                        var customerAccount = listCustomerAccount.FirstOrDefault(s => s.Customer.Id == customerId);
+                        var customerAccount = GetCustomerAccount(listCustomerAccount);
 
                         Console.WriteLine("Informe o valor a despositar.");
-                        var value = Console.ReadLine();
-                        while (!decimal.TryParse(value, out decimal outValue))
+
+                        var value = string.Empty;
+                        bool valueValid;
+                        do
                         {
-                            Console.WriteLine("Valor informado é inválido... Informe novamente.");
-                        }
+                            value = Console.ReadLine();
+                            valueValid = decimal.TryParse(value, out decimal outValue);
+                            if (!valueValid)
+                                Console.WriteLine("Valor informado é inválido... Informe novamente.");
+
+                        } while (!valueValid);
+
                         customerAccount.Account.Deposity(Math.Round(decimal.Parse(value), 2, MidpointRounding.AwayFromZero));
                         break;
 
+                    case "5":
+                        var customerAccountWithDraw = GetCustomerAccount(listCustomerAccount);
+
+                        Console.WriteLine("Informe o valor a sacar.");
+
+                        var valueWithDraw = string.Empty;
+                        bool valueWithDrawValid;
+                        do
+                        {
+                            valueWithDraw = Console.ReadLine();
+                            valueWithDrawValid = decimal.TryParse(valueWithDraw, out decimal outValue);
+                            if (!valueWithDrawValid)
+                                Console.WriteLine("Valor informado é inválido... Informe novamente.");
+
+                        } while (!valueWithDrawValid);
+
+                        customerAccountWithDraw.Account.Withdraw(Math.Round(decimal.Parse(valueWithDraw), 2, MidpointRounding.AwayFromZero));
+                        break;
+
                     case "6":
+                        var customerAccountExtract = GetCustomerAccount(listCustomerAccount);
+                        if (customerAccountExtract != null)
+                            customerAccountExtract.Account.Extract();
+                        break;
 
                     case "7":
                         GetListCustomer(listCustomer);

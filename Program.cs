@@ -23,10 +23,10 @@ namespace TreinamentoProgramacao
             Console.WriteLine("Informe: [1] Para - Conta Corrente [2] Para - Conta Poupança");
 
             CustomerAccount customerAccount;
-            // if (Console.ReadLine() == "1")
-            //     customerAccount = new CustomerAccount(customer, new CurrentAccount(bank, customer), ETypeAccount.CURRENTACCOUNT);
-            // else
-                customerAccount = new CustomerAccount(customer, new SavingAccount(bank, customer), ETypeAccount.SAVINGACCOUNT);
+            //if (Console.ReadLine() == "1")
+                customerAccount = new CustomerAccount(customer, new CurrentAccount(bank, customer), ETypeAccount.CURRENTACCOUNT);
+            //else
+            //    customerAccount = new CustomerAccount(customer, new SavingAccount(bank, customer), ETypeAccount.SAVINGACCOUNT);
             
             //ExecuteMenu();
 

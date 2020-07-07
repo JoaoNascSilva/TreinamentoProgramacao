@@ -1,10 +1,33 @@
+using TreinamentoProgramacao.Model.Enums;
+using TreinamentoProgramacao.Model.Interface;
+
 namespace TreinamentoProgramacao.Model.Entities
 {
-    public abstract class Account
+    public abstract class Account : IAccount
     {
-        public abstract bool Withdraw(decimal value);
-        public abstract bool Deposity(decimal value);
-        public abstract decimal Balance();
-        public abstract void Extract();
+        public virtual ETypeAccount TypeAccount => ETypeAccount.CURRENTACCOUNT;
+
+        public virtual decimal Balance()
+        {
+            return 0.00M;
+        }
+
+        public virtual bool Deposity(decimal value)
+        {
+            if (value == 0.00M)
+                return false;
+
+            return false;
+        }
+
+        public virtual bool Withdraw(decimal value)
+        {
+            if (value == 0.00M)
+                return false;
+
+            return true;
+        }
+
+        public virtual void Extract() { }
     }
 }

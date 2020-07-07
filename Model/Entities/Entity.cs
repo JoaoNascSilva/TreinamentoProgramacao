@@ -6,7 +6,7 @@ namespace TreinamentoProgramacao.Model.Entities
 
         public Entity()
         {
-            this.Id = System.Guid.NewGuid().ToString();
+            this.Id = System.Guid.NewGuid().ToString().Substring(0, 2);
         }
     }
 }

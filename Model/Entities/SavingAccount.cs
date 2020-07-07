@@ -1,4 +1,5 @@
 using System;
+using TreinamentoProgramacao.Model.Enums;
 
 namespace TreinamentoProgramacao.Model.Entities
 {
@@ -11,6 +12,7 @@ namespace TreinamentoProgramacao.Model.Entities
         public DateTime CreateDate { get; private set; }
         public DateTime DueDate { get; private set; }
         public string NumberAccount { get; private set; }
+        public override ETypeAccount TypeAccount => ETypeAccount.SAVINGACCOUNT;
 
         public SavingAccount(Bank bank, Customer customer)
         {
@@ -31,10 +33,12 @@ namespace TreinamentoProgramacao.Model.Entities
             if ( (this._balance - value) < 0 )
             {
                 Console.WriteLine($"Saldo insuficiente, seu saldo atual é de R$ {this.Balance()}.");
+                Console.ReadKey();
             }
 
             this._balance -= value;
-
+            Console.WriteLine("Saque realizado com sucesso.");
+            Console.ReadKey();
             return true;
         }
 
@@ -47,6 +51,8 @@ namespace TreinamentoProgramacao.Model.Entities
             }
 
             this._balance += value;
+            Console.WriteLine($"Depósito no valor de R$ {value} realizado com sucesso.");
+            Console.ReadKey();
             return true;            
         }
 
@@ -59,9 +65,11 @@ namespace TreinamentoProgramacao.Model.Entities
         {
             Console.WriteLine($"********************************");
             Console.WriteLine($"Nome.......: {this.Customer.Name}");
+            Console.WriteLine($"Banco......: {this.Bank.Name}");            
             Console.WriteLine($"Tipo Conta.: Poupança ");
             Console.WriteLine($"Saldo......: {this.Balance()}");
             Console.WriteLine($"********************************");
+            Console.ReadKey();
         }
     }
 }
